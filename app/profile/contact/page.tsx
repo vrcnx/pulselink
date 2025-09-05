@@ -1,0 +1,124 @@
+'use client';
+
+import Header from '@/components/Header';
+import Navigation from '@/components/Navigation';
+import Link from 'next/link';
+import { useState } from 'react';
+import { 
+  Phone, 
+  Mail,
+  ArrowLeft,
+  Save
+} from 'lucide-react';
+
+export default function ContactInformationPage() {
+  const [formData, setFormData] = useState({
+    phoneNumber: '',
+    email: ''
+  });
+
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    setHasUnsavedChanges(true);
+  };
+
+  const handleSave = () => {
+    console.log('Saving contact information:', formData);
+    setHasUnsavedChanges(false);
+    alert('✅ Contact information saved successfully!');
+  };
+
+  return (
+    <div className="w-full min-h-screen bg-gray-50 pb-24">
+      {/* Header */}
+      <Header />
+      
+      {/* Main Content */}
+      <main className="pt-4 w-full">
+        {/* Navigation Header */}
+        <div className="px-6 mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <Link href="/profile">
+              <div className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                <ArrowLeft className="w-5 h-5 text-gray-600" />
+              </div>
+            </Link>
+            <div>
+              <h1 className="text-xl font-bold text-gray-900">Contact Information</h1>
+              <p className="text-sm text-gray-600">Phone number and email address</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Save Button */}
+        {hasUnsavedChanges && (
+          <div className="px-6 mb-6">
+            <button
+              onClick={handleSave}
+              className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-xl transition-all duration-200 active:scale-98 flex items-center justify-center gap-3"
+            >
+              <Save className="w-4 h-4" />
+              Save Changes
+            </button>
+          </div>
+        )}
+        
+        {/* Form */}
+        <div className="px-6">
+          <div className="bg-white rounded-xl p-6">
+            <div className="space-y-6">
+              {/* Phone Number */}
+              <div>
+                <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                  <Phone className="w-4 h-4 text-gray-500" />
+                  Phone Number
+                  <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="tel"
+                  value={formData.phoneNumber}
+                  onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
+                  placeholder="(555) 123-4567"
+                  className="w-full p-4 border border-gray-200 rounded-lg focus:border-red-500 transition-all outline-none"
+                />
+                <p className="text-xs text-gray-500 mt-2">This will be used for emergency contact by first responders</p>
+              </div>
+
+              {/* Email Address */}
+              <div>
+                <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                  <Mail className="w-4 h-4 text-gray-500" />
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  placeholder="your.email@example.com"
+                  className="w-full p-4 border border-gray-200 rounded-lg focus:border-red-500 transition-all outline-none"
+                />
+                <p className="text-xs text-gray-500 mt-2">Optional - for medical records and notifications</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Save Button Bottom */}
+        <div className="px-6 mt-6">
+          <button
+            onClick={handleSave}
+            className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 active:scale-98 flex items-center justify-center gap-3"
+          >
+            <Save className="w-5 h-5" />
+            Save Contact Information
+          </button>
+        </div>
+      </main>
+      
+      {/* Bottom Navigation */}
+      <Navigation />
+    </div>
+  );
+}

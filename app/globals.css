@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f9fafb;
+  --foreground: #1f2937;
+  --pulse-red: #ef4444;
+  --pulse-red-dark: #dc2626;
 }
 
 @theme inline {
@@ -12,15 +14,126 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Mobile-specific styles */
+.mobile-container {
+  max-width: 428px;
+  margin: 0 auto;
+  position: relative;
+  background: white;
+  min-height: 100vh;
+}
+
+/* Prevent zoom on input focus on iOS */
+input, select, textarea {
+  font-size: 16px;
+}
+
+/* Flat design pulse animation for panic button */
+@keyframes pulse-flat {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 0.9;
+  }
+}
+
+.pulse-button {
+  animation: pulse-flat 2s infinite;
+}
+
+/* Flat design pulse animation for map marker */
+@keyframes pulse-marker-flat {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.pulse-red {
+  animation: pulse-marker-flat 2s infinite;
+}
+
+/* Smooth transitions */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Better touch targets */
+button {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Flat design overrides - remove all shadows */
+.shadow-none,
+.shadow-sm,
+.shadow,
+.shadow-md,
+.shadow-lg,
+.shadow-xl,
+.shadow-2xl {
+  box-shadow: none !important;
+}
+
+/* Flat design elements */
+.flat-card {
+  background: white;
+  border: 2px solid #e5e7eb;
+}
+
+.flat-button {
+  transition: all 0.2s ease;
+}
+
+.flat-button:hover {
+  transform: translateY(-1px);
+}
+
+.flat-button:active {
+  transform: translateY(0);
+}
+
+/* Leaflet map styling fixes */
+.leaflet-container {
+  height: 100% !important;
+  width: 100% !important;
+  border-radius: 0.5rem;
+  font-family: inherit !important;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0.5rem !important;
+}
+
+.leaflet-popup-tip {
+  display: none !important;
+}
+
+.custom-user-marker,
+.custom-epipen-marker {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Fix for map container spacing */
+.leaflet-control-container {
+  display: none !important;
+}
+
+.leaflet-tile-pane {
+  filter: none !important;
 }
